@@ -1,0 +1,11 @@
+<div class="numbers">
+    <div
+            class="number"
+            ng-repeat="number in [] | range:9"
+            id="number-{{number}}"
+            ng-class="{ 'number-gray': $ctrl.equalsCount[number] === 9, 'number-mark': number == $ctrl.active }"
+            ng-click="$ctrl.mark({ number: number })"
+            title="{{$ctrl.equalsCount[number] || 0}}">
+        {{number}}
+    </div>
+</div>

@@ -1,0 +1,29 @@
+<div class="timer">{{$ctrl.getTime()}}</div>
+
+<div class="box">
+    <cell
+            ng-repeat="cell in $ctrl.sudoku track by $index"
+            cell="cell"
+            index="$index"
+            mark="$ctrl.mark(number, index)"
+            readonly="!!$ctrl.source[$index]"
+            active="$ctrl.activeValue"
+            need-mark="$ctrl.needMark.indexOf($index) !== -1"
+            change="$ctrl.change(number, index)"></cell>
+</div>
+
+<numbers
+        equals-count="$ctrl.equalsCount"
+        mark="$ctrl.mark(number)"
+        active="$ctrl.activeValue"></numbers>
+
+<div class="check-btn">
+    <button ng-click="$ctrl.restart()">New game</button>
+</div>
+
+<div class="success" ng-if="$ctrl.success">
+    <div class="success-content">
+        <div class="success-header">You time is {{$ctrl.getTime()}} on mode {{$ctrl.mode}}</div>
+        <button ng-click="$ctrl.restart()">New game</button>
+    </div>
+</div>

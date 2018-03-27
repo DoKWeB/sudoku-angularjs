@@ -1,0 +1,10 @@
+<input
+        type="text"
+        maxlength="1"
+        class="cell-input"
+        pattern="^[1-9]$"
+        ng-model="$ctrl.cell"
+        ng-readonly="$ctrl.readonly"
+        ng-click="$ctrl.mark({ number: $ctrl.cell, index: $ctrl.index })"
+        ng-change="$ctrl.changeNumber()"
+        ng-class="{ 'cell-mark': $ctrl.active && $ctrl.active == $ctrl.cell, 'cell-pseudo-mark': $ctrl.needMark }">

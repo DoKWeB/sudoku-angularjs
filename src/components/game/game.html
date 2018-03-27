@@ -1,0 +1,9 @@
+<div class="container">
+    <div ng-if="!$ctrl.displayedLength.length">
+        <button ng-click="$ctrl.veryEasy()">Very easy</button>
+        <button ng-click="$ctrl.easy()">Easy</button>
+        <button ng-click="$ctrl.medium()">Medium</button>
+        <button ng-click="$ctrl.hard()">Hard</button>
+    </div>
+    <box ng-if="$ctrl.displayedLength.length" mode="$ctrl.mode"></box>
+</div>
