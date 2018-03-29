@@ -1,5 +1,5 @@
 import rangeFilter, {name as rangeFilterName} from './filters/range.filter';
-import displayedLength, {name as displayedLengthName} from './services/displayedLength.service';
+import settings, {name as settingsName} from './services/settings.service';
 import utilsService, {name as utilsServiceName} from './services/utils.service';
 import timeService, {name as timeServiceName} from './services/time.service';
 import sudokuService, {name as sudokuServiceName} from './services/sudoku.service';
@@ -11,7 +11,7 @@ import './index.scss';
 
 angular.module('app', [])
 	.filter(rangeFilterName, rangeFilter)
-	.value(displayedLengthName, displayedLength)
+	.value(settingsName, settings)
 	.service(utilsServiceName, utilsService)
 	.service(timeServiceName, timeService)
 	.service(sudokuServiceName, sudokuService)

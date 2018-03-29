@@ -1,13 +1,13 @@
 import template from './game.html';
-import {name as displayedLengthName} from '../../services/displayedLength.service';
+import {name as settingsName} from '../../services/settings.service';
 
 class controller {
-	constructor(displayedLength) {
-		this.displayedLength = displayedLength;
+	constructor(settings) {
+		this.settings = settings;
 	}
 	
 	start(length) {
-		this.displayedLength.length = length;
+		this.settings.length = length;
 	}
 	
 	veryEasy() {
@@ -30,7 +30,7 @@ class controller {
 		this.start(30);
 	}
 }
-controller.$inject = [displayedLengthName];
+controller.$inject = [settingsName];
 
 export default {
 	template,

@@ -1,29 +1,30 @@
 import template from './cell.html';
 import {name as utilsServiceName} from '../../services/utils.service';
+import {name as sudokuServiceName} from '../../services/sudoku.service';
 
 class controller {
-	constructor(utils) {
+	constructor(utils, sudokuService) {
 		this.utils = utils;
+		this.sudokuService = sudokuService;
 	}
 	
 	changeNumber() {
-		let params = {
-			number: this.cell,
-			index: this.index
-		};
+		let number = this.cell ? parseInt(this.cell) : undefined,
+			params = {
+				number,
+				index: this.index
+			};
 		
 		this.mark(params);
 		this.change(params);
-		this.errorMark();
+		this.errorMark(number);
 	}
 	
-	errorMark() {
-		let value = this.cell ? parseInt(this.cell) : undefined;
-		
-		this.needErrorMark = value && !this.utils.testCellValue(this.sudoku, value, this.index);
+	errorMark(number) {
+		this.needErrorMark = number && !this.sudokuService.testCellValue(this.index);
 	}
 }
-controller.$inject = [utilsServiceName];
+controller.$inject = [utilsServiceName, sudokuServiceName];
 
 const bindings = {
 	cell: '<',
@@ -32,8 +33,7 @@ const bindings = {
 	readonly: '<',
 	active: '<',
 	change: '&',
-	needMark: '<',
-	sudoku: '<'
+	needMark: '<'
 };
 
 export default {

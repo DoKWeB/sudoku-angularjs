@@ -1,15 +1,17 @@
 import {name as utilsServiceName} from '../services/utils.service';
-import {name as displayedLengthName} from '../services/displayedLength.service';
+import {name as settingsName} from './settings.service';
 
 class SudokuService {
-	constructor(utils, displayedLength) {
+	constructor(utils, settings) {
 		this.utils = utils;
-		this.displayedLength = displayedLength;
+		this.settings = settings;
 		
 		this.sudoku = [];
 		this.candidates = [];
 		this.mask = [];
 		this.pazzle = [];
+		this.decentralizeSudoku = [];
+		this.decentralizePazzle = [];
 	}
 	
 	_initValues() {
@@ -68,8 +70,8 @@ class SudokuService {
 		return 0;
 	}
 	
-	_testCandidate(i, j) {
-		let currentCandidate = this.sudoku[i][j],
+	_testCandidate(sudoku, i, j) {
+		let currentCandidate = sudoku[i][j],
 			p = 0,
 			m = 0,
 			squareStartI,
@@ -79,14 +81,14 @@ class SudokuService {
 		
 		for (; p < 9; p++) {
 			if (p === j) continue;
-			if (this.sudoku[i][p] === currentCandidate) {
+			if (sudoku[i][p] === currentCandidate) {
 				return false;
 			}
 		}
 		
 		for (p = 0; p < 9; p++) {
 			if (p === i) continue;
-			if (this.sudoku[p][j] === currentCandidate) {
+			if (sudoku[p][j] === currentCandidate) {
 				return false;
 			}
 		}
@@ -99,7 +101,7 @@ class SudokuService {
 		for (p = squareStartI; p < squareEndI; p++) {
 			for (m = squareStartJ; m < squareEndJ; m++) {
 				if (p === i && m === j) continue;
-				if (this.sudoku[p][m] === currentCandidate) {
+				if (sudoku[p][m] === currentCandidate) {
 					return false;
 				}
 			}
@@ -113,7 +115,7 @@ class SudokuService {
 			j = 0,
 			m = 0;
 		
-		for(; i < this.displayedLength.length; i++) {
+		for(; i < this.settings.length; i++) {
 			this.mask[i] = 1;
 		}
 		
@@ -125,6 +127,13 @@ class SudokuService {
 				m++;
 			}
 		}
+	}
+	
+	testCellValue(index) {
+		let indexes = this.utils.getIndexesOfBoxArray(index),
+			sudoku = this.utils.centralizeBoxArray(this.decentralizePazzle);
+		
+		return this._testCandidate(sudoku, indexes.i, indexes.j);
 	}
 	
 	init() {
@@ -155,7 +164,7 @@ class SudokuService {
 					break;
 				}
 				
-				testResult = this._testCandidate(i, j);
+				testResult = this._testCandidate(this.sudoku, i, j);
 			} while (testResult === false);
 			
 			if (testResult === true) {
@@ -169,11 +178,18 @@ class SudokuService {
 		} while (!this.sudoku[8][8]);
 		
 		this._applyMask();
+		this.decentralizeSudoku = this.utils.decentralizeArray(this.sudoku);
+		this.decentralizePazzle = this.utils.decentralizeArray(this.pazzle);
 		
 		return {
-			pazzle: this.pazzle,
-			sudoku: this.sudoku
+			pazzle: this.decentralizePazzle,
+			sudoku: this.decentralizeSudoku,
+			equalsCount: this.utils.getEqualsCount(this.decentralizePazzle)
 		};
+	}
+	
+	getSudoku() {
+		return this.decentralizePazzle;
 	}
 	
 	restart() {
@@ -184,8 +200,45 @@ class SudokuService {
 		
 		return this.init();
 	}
+	
+	checkSudoku() {
+		return this.decentralizeSudoku.toString() === this.decentralizePazzle.toString();
+	}
+	
+	change(number, index) {
+		this.decentralizePazzle[index] = number;
+		
+		return this.utils.getEqualsCount(this.decentralizePazzle);
+	}
+	
+	marks(number, index) {
+		let needMark = [];
+		
+		if (!number) {
+			return needMark;
+		}
+		
+		if (this.settings.lazyMode) {
+			let indexes = this.utils.getAllIndexes(this.decentralizePazzle, number);
+			
+			indexes.forEach((index) => {
+				needMark = needMark.concat(this.doMarks(index));
+			});
+			
+			return this.utils.uniqueArray(needMark);
+		}
+		
+		return this.doMarks(index);
+	}
+	
+	doMarks(index) {
+		let horizontal = this.utils.getHorizontalIndexes(index),
+			vertical = this.utils.getVerticalIndexes(index);
+		
+		return horizontal.concat(vertical);
+	}
 }
-SudokuService.$inject = [utilsServiceName , displayedLengthName];
+SudokuService.$inject = [utilsServiceName , settingsName];
 
 export default SudokuService;
 export const name = "sudokuService";
