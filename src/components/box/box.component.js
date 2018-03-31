@@ -19,6 +19,7 @@ class controller {
 		this.equalsCount = pazzles.equalsCount;
 		this.success = false;
 		this.activeValue = undefined;
+		this.activeIndex = undefined;
 		this.needMark = [];
 		
 		timeService.start();
@@ -33,6 +34,7 @@ class controller {
 		this.equalsCount = this.sudokuService.change(number, index);
 		this.checkSudoku();
 		this.mark(number, index);
+		this.activeIndex = undefined;
 	}
 	
 	checkSudoku() {
@@ -49,6 +51,18 @@ class controller {
 	
 	getTime() {
 		return this.timeService.getTime();
+	}
+	
+	setActiveIndex(index) {
+		this.activeIndex = index;
+	}
+	
+	takeHint() {
+		let index = this.activeIndex;
+		
+		if (index !== undefined) {
+			this.change(this.solution[index], index);
+		}
 	}
 }
 controller.$inject = [sudokuServiceName, utilsServiceName, settingsName, timeServiceName];

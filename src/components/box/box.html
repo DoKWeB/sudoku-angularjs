@@ -1,4 +1,7 @@
 <div class="timer">{{$ctrl.getTime()}}</div>
+<div class="hint">
+    <button ng-disabled="$ctrl.activeIndex === undefined" ng-click="$ctrl.takeHint()">Take a hint</button>
+</div>
 
 <div class="box">
     <cell
@@ -9,7 +12,8 @@
             readonly="!!$ctrl.source[$index]"
             active="$ctrl.activeValue"
             need-mark="$ctrl.needMark.indexOf($index) !== -1"
-            change="$ctrl.change(number, index)"></cell>
+            change="$ctrl.change(number, index)"
+            set-active-index="$ctrl.setActiveIndex(index)"></cell>
 </div>
 
 <numbers

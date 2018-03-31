@@ -33,7 +33,8 @@ const bindings = {
 	readonly: '<',
 	active: '<',
 	change: '&',
-	needMark: '<'
+	needMark: '<',
+	setActiveIndex: '&'
 };
 
 export default {
