@@ -15,13 +15,7 @@ class controller {
 				index: this.index
 			};
 		
-		this.mark(params);
 		this.change(params);
-		this.errorMark(number);
-	}
-	
-	errorMark(number) {
-		this.needErrorMark = number && !this.sudokuService.testCellValue(this.index);
 	}
 }
 controller.$inject = [utilsServiceName, sudokuServiceName];
@@ -34,7 +28,8 @@ const bindings = {
 	active: '<',
 	change: '&',
 	needMark: '<',
-	setActiveIndex: '&'
+	setActiveIndex: '&',
+	needErrorMark: '<'
 };
 
 export default {

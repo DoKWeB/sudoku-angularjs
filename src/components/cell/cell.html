@@ -6,7 +6,7 @@
     ng-readonly="$ctrl.readonly"
     ng-click="$ctrl.mark({ number: $ctrl.cell, index: $ctrl.index })"
     ng-change="$ctrl.changeNumber()"
-    ng-focus="$ctrl.setActiveIndex({ index: $ctrl.cell ? undefined : $ctrl.index })"
+    ng-focus="$ctrl.setActiveIndex({ index: $ctrl.index })"
     ng-class="{
         'cell-mark': $ctrl.active && $ctrl.active == $ctrl.cell,
         'cell-pseudo-mark': $ctrl.needMark,

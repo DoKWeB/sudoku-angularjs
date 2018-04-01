@@ -1,8 +1,2 @@
-# folder node modules
 node_modules/
-
-# folder webstorm
 .idea/
-
-# folder build
-build/

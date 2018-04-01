@@ -12,6 +12,7 @@ class SudokuService {
 		this.pazzle = [];
 		this.decentralizeSudoku = [];
 		this.decentralizePazzle = [];
+		this.errorMarks = [];
 	}
 	
 	_initValues() {
@@ -184,7 +185,8 @@ class SudokuService {
 		return {
 			pazzle: this.decentralizePazzle,
 			sudoku: this.decentralizeSudoku,
-			equalsCount: this.utils.getEqualsCount(this.decentralizePazzle)
+			equalsCount: this.utils.getEqualsCount(this.decentralizePazzle),
+			errorMarks: this.errorMarks
 		};
 	}
 	
@@ -197,6 +199,7 @@ class SudokuService {
 		this.candidates = [];
 		this.mask = [];
 		this.pazzle = [];
+		this.errorMarks = [];
 		
 		return this.init();
 	}
@@ -207,6 +210,8 @@ class SudokuService {
 	
 	change(number, index) {
 		this.decentralizePazzle[index] = number;
+		this.testErrorCell(number, index);
+		this.checkErrorMarks();
 		
 		return this.utils.getEqualsCount(this.decentralizePazzle);
 	}
@@ -236,6 +241,23 @@ class SudokuService {
 			vertical = this.utils.getVerticalIndexes(index);
 		
 		return horizontal.concat(vertical);
+	}
+	
+	testErrorCell(number, index) {
+		if (number && !this.testCellValue(index)) {
+			this.errorMarks[index] = true;
+			return true;
+		}
+		
+		return false;
+	}
+	
+	checkErrorMarks() {
+		Object.keys(this.errorMarks).forEach((index) => {
+			if (this.errorMarks[index] === true && (this.decentralizePazzle[index] === undefined || this.testCellValue(index))) {
+				delete this.errorMarks[index];
+			}
+		});
 	}
 }
 SudokuService.$inject = [utilsServiceName , settingsName];
