@@ -15,7 +15,7 @@ const angular = require('./webpack/angular');
 
 const PATHS = {
 	src: path.join(__dirname, 'src'), // src path
-	build: path.join(__dirname, 'build') // build path
+	build: path.join(__dirname, 'docs') // build path
 };
 
 const common = merge([
