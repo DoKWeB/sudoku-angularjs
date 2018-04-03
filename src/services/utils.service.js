@@ -37,6 +37,10 @@ class UtilsService {
 		return { i, j };
 	}
 	
+	getDecentralizeIndex(i, j) {
+		return i * 9 + j;
+	}
+	
 	replaceZeroToUndefinedInArray(arr) {
 		return arr.map((item) => item ? item : undefined);
 	}

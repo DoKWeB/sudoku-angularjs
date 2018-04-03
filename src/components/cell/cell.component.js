@@ -15,7 +15,11 @@ class controller {
 				index: this.index
 			};
 		
-		this.change(params);
+		if (number > 0 || number === undefined) {
+			this.change(params);
+		} else {
+			this.cell = '';
+		}
 	}
 }
 controller.$inject = [utilsServiceName, sudokuServiceName];

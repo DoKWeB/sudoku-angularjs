@@ -65,10 +65,13 @@ class controller {
 	}
 	
 	takeHint() {
-		let index = this.activeIndex;
+		let index = this.activeIndex,
+			val;
 		
 		if (index !== undefined) {
-			this.change(this.solution[index], index);
+			val = this.solution[index];
+			this.change(val, index);
+			this.source[index] = val;
 		}
 	}
 }

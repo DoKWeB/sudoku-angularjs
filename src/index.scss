@@ -39,12 +39,12 @@ cell {
   &[readonly]:hover {
     cursor: pointer;
   }
+  &.cell-pseudo-mark {
+    background-color: #fff782;
+  }
   &.cell-mark,
   &.cell-mark[readonly] {
     background-color: #ffca55;
-  }
-  &.cell-pseudo-mark {
-    background-color: #fff782;
   }
   &.cell-error-mark {
     background-color: #ff8656 !important;

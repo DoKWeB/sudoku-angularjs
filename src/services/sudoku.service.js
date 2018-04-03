@@ -205,7 +205,29 @@ class SudokuService {
 	}
 	
 	checkSudoku() {
-		return this.decentralizeSudoku.toString() === this.decentralizePazzle.toString();
+		let valid = this.decentralizeSudoku.toString() === this.decentralizePazzle.toString(),
+			sudoku = this.utils.centralizeBoxArray(this.decentralizePazzle),
+			i = 0,
+			j,
+			length;
+		
+		if (!valid) {
+			length = this.decentralizePazzle.filter((number) => number !== undefined).length;
+			
+			if (length === 81) {
+				for (; i < 9; i++) {
+					for (j = 0; j < 9; j++) {
+						valid = this._testCandidate(sudoku, i, j);
+						
+						if (!valid) {
+							return valid;
+						}
+					}
+				}
+			}
+		}
+		
+		return valid;
 	}
 	
 	change(number, index) {
@@ -230,17 +252,53 @@ class SudokuService {
 				needMark = needMark.concat(this.doMarks(index));
 			});
 			
-			return this.utils.uniqueArray(needMark);
+			return this.utils.uniqueArray(needMark.concat(this.getOtherMarksIndexes(number)));
 		}
 		
-		return this.doMarks(index);
+		return this.utils.uniqueArray(this.doMarks(index));
+	}
+	
+	getOtherMarksIndexes(number) {
+		let numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9],
+			index = numbers.indexOf(number),
+			result = [],
+			i = 0;
+		
+		numbers.splice(index, 1);
+		
+		for (; i < 8; i++) {
+			result = result.concat(this.utils.getAllIndexes(this.decentralizePazzle, numbers[i]));
+		}
+		
+		return result;
+	}
+	
+	getBoxIndexes(index) {
+		let indexes = this.utils.getIndexesOfBoxArray(index),
+			i = indexes.i,
+			j = indexes.j,
+			result = [],
+			squareStartI = parseInt((i / 3).toString()) * 3,
+			squareStartJ = parseInt((j / 3).toString()) * 3,
+			squareEndI = squareStartI + 3,
+			squareEndJ = squareStartJ + 3,
+			p,
+			m;
+		
+		for (p = squareStartI; p < squareEndI; p++) {
+			for (m = squareStartJ; m < squareEndJ; m++) {
+				result.push(this.utils.getDecentralizeIndex(p, m));
+			}
+		}
+		
+		return result;
 	}
 	
 	doMarks(index) {
 		let horizontal = this.utils.getHorizontalIndexes(index),
 			vertical = this.utils.getVerticalIndexes(index);
 		
-		return horizontal.concat(vertical);
+		return horizontal.concat(vertical).concat(this.getBoxIndexes(index));
 	}
 	
 	testErrorCell(number, index) {
