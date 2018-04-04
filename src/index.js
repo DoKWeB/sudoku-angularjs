@@ -7,6 +7,7 @@ import gameComponent, {name as gameComponentName} from './components/game/game.c
 import boxComponent, {name as boxComponentName} from './components/box/box.component';
 import cellComponent, {name as cellComponentName} from './components/cell/cell.component';
 import numbersComponent, {name as numbersComponentName} from './components/numbers/numbers.component';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.scss';
 
 angular.module('app', [])

@@ -18,7 +18,7 @@ class controller {
 		if (number > 0 || number === undefined) {
 			this.change(params);
 		} else {
-			this.cell = '';
+			this.cell = undefined;
 		}
 	}
 }

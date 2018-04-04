@@ -22,12 +22,18 @@ class controller {
 		this.activeValue = undefined;
 		this.activeIndex = undefined;
 		this.needMark = [];
+		this.hints = 0;
 		
 		timeService.start();
 		
 		$scope.$watch('$ctrl.settings.lazyMode', () => {
-			if (this.activeValue && this.activeIndex) {
-				this.mark(this.activeValue, this.activeIndex);
+			let val = this.activeValue,
+				index = this.activeIndex;
+			
+			if (val && index) {
+				this.mark(val, index);
+			} else if (val) {
+				this.mark(val, this.sudoku.indexOf(val));
 			}
 		});
 	}
@@ -51,10 +57,6 @@ class controller {
 		}
 	}
 	
-	restart() {
-		this.settings.length = 0;
-	}
-	
 	getTime() {
 		return this.timeService.getTime();
 	}
@@ -66,19 +68,18 @@ class controller {
 	
 	takeHint() {
 		let index = this.activeIndex,
-			val;
-		
-		if (index !== undefined) {
 			val = this.solution[index];
-			this.change(val, index);
-			this.source[index] = val;
-		}
+		
+		this.change(val, index);
+		this.source[index] = val;
+		this.hints++;
 	}
 }
 controller.$inject = [sudokuServiceName, utilsServiceName, settingsName, timeServiceName, '$scope'];
 
 const bindings = {
-	mode: '<'
+	mode: '<',
+	restart: '&'
 };
 
 export default {

@@ -1,15 +1,11 @@
-<div class="container">
-    <div>
-        <label>
-            <input type="checkbox" ng-model="$ctrl.settings.lazyMode">
-            Lazy mode
-        </label>
+<div class="container mt-2">
+    <h1>Sudoku</h1>
+    <div class="btn-group" role="group" aria-label="Game modes" ng-if="!$ctrl.settings.length">
+        <button type="button" class="btn btn-dark" ng-click="$ctrl.forTestOnly()">For test only</button>
+        <button type="button" class="btn btn-dark" ng-click="$ctrl.veryEasy()">Very easy</button>
+        <button type="button" class="btn btn-dark" ng-click="$ctrl.easy()">Easy</button>
+        <button type="button" class="btn btn-dark" ng-click="$ctrl.medium()">Medium</button>
+        <button type="button" class="btn btn-dark" ng-click="$ctrl.hard()">Hard</button>
     </div>
-    <div ng-if="!$ctrl.settings.length">
-        <button ng-click="$ctrl.veryEasy()">Very easy</button>
-        <button ng-click="$ctrl.easy()">Easy</button>
-        <button ng-click="$ctrl.medium()">Medium</button>
-        <button ng-click="$ctrl.hard()">Hard</button>
-    </div>
-    <box ng-if="$ctrl.settings.length" mode="$ctrl.mode"></box>
+    <box ng-if="$ctrl.settings.length" mode="$ctrl.mode" restart="$ctrl.restart()"></box>
 </div>

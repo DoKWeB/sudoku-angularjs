@@ -1,34 +1,99 @@
-<div class="timer">{{$ctrl.getTime()}}</div>
-<div class="hint">
-    <button ng-disabled="$ctrl.activeIndex === undefined" ng-click="$ctrl.takeHint()">Take a hint</button>
-</div>
+<div class="row">
+    <div class="col-lg-6 col-md-8 mb-3">
+        <div class="box">
+            <cell
+                    ng-repeat="cell in $ctrl.sudoku track by $index"
+                    cell="cell"
+                    index="$index"
+                    mark="$ctrl.mark(number, index)"
+                    readonly="!!$ctrl.source[$index]"
+                    active="$ctrl.activeValue"
+                    need-mark="$ctrl.needMark.indexOf($index) !== -1"
+                    change="$ctrl.change(number, index)"
+                    set-active-index="$ctrl.setActiveIndex(index)"
+                    increment-error="$ctrl.incrementError()"
+                    need-error-mark="$ctrl.errorMarks[$index]"></cell>
+        </div>
+        <numbers
+                equals-count="$ctrl.equalsCount"
+                mark="$ctrl.mark(number)"
+                active="$ctrl.activeValue"></numbers>
+    </div>
 
-<div class="box">
-    <cell
-            ng-repeat="cell in $ctrl.sudoku track by $index"
-            cell="cell"
-            index="$index"
-            mark="$ctrl.mark(number, index)"
-            readonly="!!$ctrl.source[$index]"
-            active="$ctrl.activeValue"
-            need-mark="$ctrl.needMark.indexOf($index) !== -1"
-            change="$ctrl.change(number, index)"
-            set-active-index="$ctrl.setActiveIndex(index)"
-            need-error-mark="$ctrl.errorMarks[$index]"></cell>
-</div>
-
-<numbers
-        equals-count="$ctrl.equalsCount"
-        mark="$ctrl.mark(number)"
-        active="$ctrl.activeValue"></numbers>
-
-<div class="check-btn">
-    <button ng-click="$ctrl.restart()">New game</button>
-</div>
-
-<div class="success" ng-if="$ctrl.success">
-    <div class="success-content">
-        <div class="success-header">You time is {{$ctrl.getTime()}} on mode {{$ctrl.mode}}</div>
-        <button ng-click="$ctrl.restart()">New game</button>
+    <div class="col-lg-6 col-md-4">
+        <div>
+            <strong>{{$ctrl.getTime()}}</strong>
+            <button
+                    ng-if="$ctrl.settings.length"
+                    ng-click="$ctrl.restart()"
+                    type="button"
+                    class="btn btn-light float-right">
+                New game
+            </button>
+        </div>
+        <div>
+            <label>
+                <input type="checkbox" ng-model="$ctrl.settings.lazyMode">
+                Lazy mode
+            </label>
+            <button
+                    type="button"
+                    class="btn btn-light"
+                    ng-disabled="$ctrl.activeIndex === undefined || $ctrl.hints === $ctrl.settings.hints"
+                    ng-click="$ctrl.takeHint()">
+                Take a hint
+            </button>
+        </div>
+        <div class="mt-2">
+            <strong>Box types</strong>
+            <div>
+                <input class="cell-input btn-light" readonly value="1"> Cell with default value
+            </div>
+            <div>
+                <input class="cell-input" readonly value="2"> Cell for input value
+            </div>
+            <div>
+                <input class="cell-input btn-warning cell-mark" readonly value="3"> Cell with current active value
+            </div>
+            <div>
+                <input class="cell-input btn-warning" readonly value="4"> Cell which can not be current active value
+            </div>
+            <div>
+                <input class="cell-input btn-danger" readonly value="5"> Cell with invalid value
+            </div>
+        </div>
+        <div class="mt-2">
+            <strong>Number types</strong>
+            <div>
+                <button class="btn number btn-dark">1</button> Default state (count numbers in box < 9)
+            </div>
+            <div>
+                <button class="btn number btn-dark number-disabled">2</button> Disabled state (count numbers in box = 9)
+            </div>
+            <div>
+                <button class="btn number btn-warning">3</button> Marked state
+            </div>
+            <div>
+                <button class="btn number btn-warning number-disabled">4</button> Disabled and marked state
+            </div>
+        </div>
     </div>
 </div>
+
+<div class="modal fade" tabindex="-1" role="dialog" ng-class="{ 'show display-modal': $ctrl.success }">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">You win!</h5>
+            </div>
+            <div class="modal-body">
+                <p>You time is {{$ctrl.getTime()}} on mode {{$ctrl.mode}}</p>
+                <p>Used hints: {{$ctrl.hints}}</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" ng-click="$ctrl.restart()">New game</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-backdrop fade show" ng-if="$ctrl.success"></div>

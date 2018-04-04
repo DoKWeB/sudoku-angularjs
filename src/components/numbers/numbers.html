@@ -1,4 +1,4 @@
-<div class="numbers">
+<!--<div class="numbers">
     <div
             class="number"
             ng-repeat="number in [] | range:9"
@@ -8,4 +8,15 @@
             title="{{$ctrl.equalsCount[number] || 0}}">
         {{number}}
     </div>
+</div>-->
+<div class="btn-group btn-group-lg mt-2">
+    <button
+        class="btn number"
+        ng-repeat="number in [] | range:9"
+        ng-class="{
+            'btn-warning': number == $ctrl.active,
+            'btn-dark': number != $ctrl.active,
+            'number-disabled': $ctrl.equalsCount[number] === 9}"
+        ng-click="$ctrl.mark({ number: number })"
+        title="{{$ctrl.equalsCount[number] || 0}}">{{number}}</button>
 </div>

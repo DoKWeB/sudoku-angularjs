@@ -10,6 +10,15 @@ class controller {
 		this.settings.length = length;
 	}
 	
+	restart() {
+		this.settings.length = 0;
+	}
+	
+	forTestOnly() {
+		this.mode = 'test';
+		this.start(80);
+	}
+	
 	veryEasy() {
 		this.mode = 'very easy';
 		this.start(70);

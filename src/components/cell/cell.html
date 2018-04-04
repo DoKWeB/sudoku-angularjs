@@ -8,7 +8,8 @@
     ng-change="$ctrl.changeNumber()"
     ng-focus="$ctrl.setActiveIndex({ index: $ctrl.index })"
     ng-class="{
-        'cell-mark': $ctrl.active && $ctrl.active == $ctrl.cell,
-        'cell-pseudo-mark': $ctrl.needMark,
-        'cell-error-mark': $ctrl.needErrorMark}"
+        'btn-light': $ctrl.readonly && !$ctrl.needMark,
+        'btn-warning cell-mark': $ctrl.active && $ctrl.active == $ctrl.cell && !$ctrl.needErrorMark,
+        'btn-danger': $ctrl.needErrorMark,
+        'btn-warning': $ctrl.needMark}"
 >
