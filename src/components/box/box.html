@@ -38,6 +38,7 @@
             </label>
             <button
                     type="button"
+                    title="{{$ctrl.getHinstPhrase()}}"
                     class="btn btn-light"
                     ng-disabled="$ctrl.activeIndex === undefined || $ctrl.hints === $ctrl.settings.hints"
                     ng-click="$ctrl.takeHint()">

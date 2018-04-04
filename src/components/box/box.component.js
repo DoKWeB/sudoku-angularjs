@@ -74,6 +74,12 @@ class controller {
 		this.source[index] = val;
 		this.hints++;
 	}
+	
+	getHinstPhrase() {
+		let hints = this.settings.hints - this.hints;
+		
+		return hints + ' hint' + (hints === 1 ? ' is' : 's are') + ' available from ' + this.settings.hints;
+	}
 }
 controller.$inject = [sudokuServiceName, utilsServiceName, settingsName, timeServiceName, '$scope'];
 
