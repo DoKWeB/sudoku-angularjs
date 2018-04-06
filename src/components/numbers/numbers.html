@@ -17,6 +17,6 @@
             'btn-warning': number == $ctrl.active,
             'btn-dark': number != $ctrl.active,
             'number-disabled': $ctrl.equalsCount[number] === 9}"
-        ng-click="$ctrl.mark({ number: number })"
+        ng-click="$ctrl.mark({ number: number, index: undefined })"
         title="{{$ctrl.equalsCount[number] || 0}}">{{number}}</button>
 </div>

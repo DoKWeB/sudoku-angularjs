@@ -5,14 +5,6 @@ class SudokuService {
 	constructor(utils, settings) {
 		this.utils = utils;
 		this.settings = settings;
-		
-		this.sudoku = [];
-		this.candidates = [];
-		this.mask = [];
-		this.pazzle = [];
-		this.decentralizeSudoku = [];
-		this.decentralizePazzle = [];
-		this.errorMarks = [];
 	}
 	
 	_initValues() {
@@ -143,6 +135,14 @@ class SudokuService {
 			j = 0,
 			testResult = false;
 		
+		this.sudoku = [];
+		this.candidates = [];
+		this.mask = [];
+		this.pazzle = [];
+		this.decentralizeSudoku = [];
+		this.decentralizePazzle = [];
+		this.errorMarks = [];
+		
 		this._initValues();
 		this._initCandidates();
 		
@@ -192,16 +192,6 @@ class SudokuService {
 	
 	getSudoku() {
 		return this.decentralizePazzle;
-	}
-	
-	restart() {
-		this.sudoku = [];
-		this.candidates = [];
-		this.mask = [];
-		this.pazzle = [];
-		this.errorMarks = [];
-		
-		return this.init();
 	}
 	
 	checkSudoku() {

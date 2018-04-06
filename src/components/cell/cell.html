@@ -4,12 +4,11 @@
     class="cell-input"
     ng-model="$ctrl.cell"
     ng-readonly="$ctrl.readonly"
-    ng-click="$ctrl.mark({ number: $ctrl.cell, index: $ctrl.index })"
     ng-change="$ctrl.changeNumber()"
-    ng-focus="$ctrl.setActiveIndex({ index: $ctrl.index })"
+    ng-focus="$ctrl.preMark()"
     ng-class="{
         'btn-light': $ctrl.readonly && !$ctrl.needMark,
-        'btn-warning cell-mark': $ctrl.active && $ctrl.active == $ctrl.cell && !$ctrl.needErrorMark,
         'btn-danger': $ctrl.needErrorMark,
-        'btn-warning': $ctrl.needMark}"
+        'btn-warning': $ctrl.needMark,
+        'cell-mark': $ctrl.active && $ctrl.active == $ctrl.cell && !$ctrl.needErrorMark}"
 >

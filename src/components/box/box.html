@@ -10,13 +10,11 @@
                     active="$ctrl.activeValue"
                     need-mark="$ctrl.needMark.indexOf($index) !== -1"
                     change="$ctrl.change(number, index)"
-                    set-active-index="$ctrl.setActiveIndex(index)"
-                    increment-error="$ctrl.incrementError()"
-                    need-error-mark="$ctrl.errorMarks[$index]"></cell>
+                    need-error-mark="!!$ctrl.errorMarks[$index]"></cell>
         </div>
         <numbers
                 equals-count="$ctrl.equalsCount"
-                mark="$ctrl.mark(number)"
+                mark="$ctrl.mark(number, index)"
                 active="$ctrl.activeValue"></numbers>
     </div>
 
@@ -36,14 +34,16 @@
                 <input type="checkbox" ng-model="$ctrl.settings.lazyMode">
                 Lazy mode
             </label>
-            <button
-                    type="button"
-                    title="{{$ctrl.getHinstPhrase()}}"
-                    class="btn btn-light"
-                    ng-disabled="$ctrl.activeIndex === undefined || $ctrl.hints === $ctrl.settings.hints"
-                    ng-click="$ctrl.takeHint()">
-                Take a hint
-            </button>
+            <div>
+                <button
+                        type="button"
+                        class="btn btn-light"
+                        ng-disabled="$ctrl.activeIndex === undefined || $ctrl.hints === $ctrl.settings.hints"
+                        ng-click="$ctrl.takeHint()">
+                    Take a hint
+                </button>
+            </div>
+            <div>{{$ctrl.getHinstPhrase()}}</div>
         </div>
         <div class="mt-2">
             <strong>Box types</strong>

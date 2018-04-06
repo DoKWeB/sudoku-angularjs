@@ -40,6 +40,7 @@ class controller {
 	
 	mark(number, index) {
 		this.activeValue = number;
+		this.activeIndex = index;
 		this.needMark = this.sudokuService.marks(number, index);
 	}
 	
@@ -61,11 +62,6 @@ class controller {
 		return this.timeService.getTime();
 	}
 	
-	setActiveIndex(index) {
-		this.activeIndex = index;
-		this.activeValue = this.sudoku[index];
-	}
-	
 	takeHint() {
 		let index = this.activeIndex,
 			val = this.solution[index];
@@ -80,12 +76,15 @@ class controller {
 		
 		return hints + ' hint' + (hints === 1 ? ' is' : 's are') + ' available from ' + this.settings.hints;
 	}
+	
+	restart() {
+		this.settings.length = 0;
+	}
 }
 controller.$inject = [sudokuServiceName, utilsServiceName, settingsName, timeServiceName, '$scope'];
 
 const bindings = {
-	mode: '<',
-	restart: '&'
+	mode: '<'
 };
 
 export default {

@@ -9,7 +9,7 @@ class controller {
 	}
 	
 	changeNumber() {
-		let number = this.cell ? parseInt(this.cell) : undefined,
+		let number = this.getNumber(),
 			params = {
 				number,
 				index: this.index
@@ -20,6 +20,16 @@ class controller {
 		} else {
 			this.cell = undefined;
 		}
+	}
+	
+	getNumber() {
+		return this.cell ? parseInt(this.cell) : undefined;
+	}
+	
+	preMark() {
+		let number = this.getNumber();
+		
+		this.mark({ number: number, index: this.index });
 	}
 }
 controller.$inject = [utilsServiceName, sudokuServiceName];
@@ -32,7 +42,6 @@ const bindings = {
 	active: '<',
 	change: '&',
 	needMark: '<',
-	setActiveIndex: '&',
 	needErrorMark: '<'
 };
 
