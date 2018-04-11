@@ -38,7 +38,7 @@
                 <button
                         type="button"
                         class="btn btn-light"
-                        ng-disabled="$ctrl.activeIndex === undefined || $ctrl.hints === $ctrl.settings.hints"
+                        ng-disabled="$ctrl.activeIndex === undefined || $ctrl.source[$ctrl.activeIndex] || $ctrl.hints === $ctrl.settings.hints"
                         ng-click="$ctrl.takeHint()">
                     Take a hint
                 </button>
@@ -88,7 +88,7 @@
                 <h5 class="modal-title">You win!</h5>
             </div>
             <div class="modal-body">
-                <p>You time is {{$ctrl.getTime()}} on mode {{$ctrl.mode}}</p>
+                <p>Your time is {{$ctrl.getTime()}} on mode {{$ctrl.mode}}</p>
                 <p>Used hints: {{$ctrl.hints}}</p>
             </div>
             <div class="modal-footer">

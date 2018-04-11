@@ -5,11 +5,12 @@ import {name as settingsName} from '../../services/settings.service';
 import {name as timeServiceName} from '../../services/time.service';
 
 class controller {
-	constructor(sudokuService, utils, settings, timeService, $scope) {
+	constructor(sudokuService, utils, settings, timeService, $scope, toastr, toastrConfig) {
 		this.sudokuService = sudokuService;
 		this.utils = utils;
 		this.settings = settings;
 		this.timeService = timeService;
+		this.toastr = toastr;
 		
 		const pazzles = sudokuService.init();
 		
@@ -35,6 +36,14 @@ class controller {
 			} else if (val) {
 				this.mark(val, this.sudoku.indexOf(val));
 			}
+		});
+		
+		angular.extend(toastrConfig, {
+			closeButton: true,
+			extendedTimeOut: 1000,
+			progressBar: true,
+			timeOut: 5000,
+			positionClass: 'toast-bottom-right'
 		});
 	}
 	
@@ -69,6 +78,7 @@ class controller {
 		this.change(val, index);
 		this.source[index] = val;
 		this.hints++;
+		this.toastr.success('-1 hint');
 	}
 	
 	getHinstPhrase() {
@@ -81,7 +91,7 @@ class controller {
 		this.settings.length = 0;
 	}
 }
-controller.$inject = [sudokuServiceName, utilsServiceName, settingsName, timeServiceName, '$scope'];
+controller.$inject = [sudokuServiceName, utilsServiceName, settingsName, timeServiceName, '$scope', 'toastr', 'toastrConfig'];
 
 const bindings = {
 	mode: '<'

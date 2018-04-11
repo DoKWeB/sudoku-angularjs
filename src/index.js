@@ -9,8 +9,11 @@ import cellComponent, {name as cellComponentName} from './components/cell/cell.c
 import numbersComponent, {name as numbersComponentName} from './components/numbers/numbers.component';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.scss';
+import 'angular-toastr';
+import 'angular-toastr/dist/angular-toastr.min.css';
+import 'angular-animate';
 
-angular.module('app', [])
+angular.module('app', ['ngAnimate', 'toastr'])
 	.filter(rangeFilterName, rangeFilter)
 	.value(settingsName, settings)
 	.service(utilsServiceName, utilsService)
