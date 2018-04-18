@@ -1,11 +1,10 @@
 <div class="container mt-2">
     <h1>Sudoku</h1>
-    <div class="btn-group" role="group" aria-label="Game modes" ng-if="!$ctrl.settings.length">
-        <button type="button" class="btn btn-dark" ng-click="$ctrl.forTestOnly()">For test only</button>
-        <button type="button" class="btn btn-dark" ng-click="$ctrl.veryEasy()">Very easy</button>
-        <button type="button" class="btn btn-dark" ng-click="$ctrl.easy()">Easy</button>
-        <button type="button" class="btn btn-dark" ng-click="$ctrl.medium()">Medium</button>
-        <button type="button" class="btn btn-dark" ng-click="$ctrl.hard()">Hard</button>
+    <div class="btn-group" role="group" aria-label="Game modes">
+        <a class="btn btn-dark" ui-sref="mode({ mode: 'test' })">For test only</a>
+        <a class="btn btn-dark" ui-sref="mode({ mode: 'veryEasy' })">Very easy</a>
+        <a class="btn btn-dark" ui-sref="mode({ mode: 'easy' })">Easy</a>
+        <a class="btn btn-dark" ui-sref="mode({ mode: 'medium' })">Medium</a>
+        <a class="btn btn-dark" ui-sref="mode({ mode: 'hard' })">Hard</a>
     </div>
-    <box ng-if="$ctrl.settings.length" mode="$ctrl.mode"></box>
 </div>

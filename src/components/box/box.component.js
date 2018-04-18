@@ -5,14 +5,27 @@ import {name as settingsName} from '../../services/settings.service';
 import {name as timeServiceName} from '../../services/time.service';
 
 class controller {
-	constructor(sudokuService, utils, settings, timeService, $scope, toastr, toastrConfig) {
+	constructor(sudokuService, utils, settings, timeService, $scope, toastr, toastrConfig, $state) {
 		this.sudokuService = sudokuService;
 		this.utils = utils;
 		this.settings = settings;
 		this.timeService = timeService;
 		this.toastr = toastr;
+		this.$scope = $scope;
+		this.toastrConfig = toastrConfig;
+		this.$state = $state;
+	}
+	
+	$onInit() {
+		const modeLength = this.settings.modes[this.mode];
 		
-		const pazzles = sudokuService.init();
+		if (modeLength) {
+			this.settings.length = modeLength;
+		} else {
+			this.$state.go('pageNotFound');
+		}
+		
+		const pazzles = this.sudokuService.init();
 		
 		this.sudoku = pazzles.pazzle;
 		this.solution = pazzles.sudoku;
@@ -25,9 +38,9 @@ class controller {
 		this.needMark = [];
 		this.hints = 0;
 		
-		timeService.start();
+		this.timeService.start();
 		
-		$scope.$watch('$ctrl.settings.lazyMode', () => {
+		this.$scope.$watch('$ctrl.settings.lazyMode', () => {
 			let val = this.activeValue,
 				index = this.activeIndex;
 			
@@ -38,7 +51,7 @@ class controller {
 			}
 		});
 		
-		angular.extend(toastrConfig, {
+		angular.extend(this.toastrConfig, {
 			closeButton: true,
 			extendedTimeOut: 1000,
 			progressBar: true,
@@ -86,12 +99,8 @@ class controller {
 		
 		return hints + ' hint' + (hints === 1 ? ' is' : 's are') + ' available from ' + this.settings.hints;
 	}
-	
-	restart() {
-		this.settings.length = 0;
-	}
 }
-controller.$inject = [sudokuServiceName, utilsServiceName, settingsName, timeServiceName, '$scope', 'toastr', 'toastrConfig'];
+controller.$inject = [sudokuServiceName, utilsServiceName, settingsName, timeServiceName, '$scope', 'toastr', 'toastrConfig', '$state'];
 
 const bindings = {
 	mode: '<'
