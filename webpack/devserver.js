@@ -3,7 +3,8 @@ module.exports = function () {
 		devServer: { // настройки webpack-dev-server
 			stats: 'errors-only', // выводить от webpack только ошибки в консоль
 			port: 9000,
-			historyApiFallback: true
+			historyApiFallback: true,
+			hot: true
 		}
 	};
 };

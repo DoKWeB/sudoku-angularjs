@@ -5,6 +5,7 @@
   "scripts": {
     "start": "webpack-dev-server --hot --env development",
     "build": "webpack --env production",
+    "build:github": "webpack --env github",
     "serv": "static build",
     "test:single": "karma start karma.conf.js --single-run --browsers PhantomJS",
     "test:watch": "karma start karma.conf.js --browsers PhantomJS"

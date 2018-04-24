@@ -25,14 +25,10 @@ const common = merge([
 		},
 		output: { // точка выхода
 			path: PATHS.build, // куда поместить бандл
-			filename: 'js/[name].js' // имя бандла
+			filename: 'js/[name].js', // имя бандла,
+			publicPath: '/'
 		},
 		plugins: [
-			new HtmlWebpackPlugin({
-				filename: 'index.html',
-				chunks: ['index', 'common'],
-				template: PATHS.src + '/index.pug'
-			}),
 			new webpack.optimize.CommonsChunkPlugin({
 				name: 'common'
 			}),
@@ -48,17 +44,32 @@ const common = merge([
 	angular()
 ]);
 
+function getPlugin(env) {
+	return {
+		plugins: [
+			new HtmlWebpackPlugin({
+				filename: 'index.html',
+				chunks: ['index', 'common'],
+				template: PATHS.src + '/index.pug',
+				github: env === 'github'
+			})
+		]
+	};
+}
+
 module.exports = function (env) {
-	if (env === 'production') {
+	if (env === 'production' || env === 'github') {
 		return merge([
 			common,
+			getPlugin(env),
 			extractCSS(),
-			uglifyJS()
+			uglifyJS(),
 		]);
 	}
 	if (env === 'development') {
 		return merge([
 			common,
+			getPlugin(env),
 			devserver(),
 			sass(),
 			css(),

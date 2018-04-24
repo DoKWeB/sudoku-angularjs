@@ -89,7 +89,6 @@ class controller {
 			val = this.solution[index];
 		
 		this.change(val, index);
-		this.source[index] = val;
 		this.hints++;
 		this.toastr.success('-1 hint');
 	}
