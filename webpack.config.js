@@ -18,58 +18,53 @@ const PATHS = {
 	build: path.join(__dirname, 'docs') // build path
 };
 
-const common = merge([
-	{
-		entry: {// точка входа приложения
-			'index': PATHS.src + '/index.js' // страница index
+const common = function (isGithub) {
+	return merge([
+		{
+			entry: {// точка входа приложения
+				'index': PATHS.src + '/index.js' // страница index
+			},
+			output: { // точка выхода
+				path: PATHS.build, // куда поместить бандл
+				filename: 'js/[name].js', // имя бандла,
+				publicPath: isGithub ? './' : '/'
+			},
+			plugins: [
+				new HtmlWebpackPlugin({
+					filename: 'index.html',
+					chunks: ['index', 'common'],
+					template: PATHS.src + '/index.pug',
+					github: isGithub
+				}),
+				new webpack.optimize.CommonsChunkPlugin({
+					name: 'common'
+				}),
+				new webpack.ProvidePlugin({
+					angular: 'angular'
+				})
+			]
 		},
-		output: { // точка выхода
-			path: PATHS.build, // куда поместить бандл
-			filename: 'js/[name].js', // имя бандла,
-			publicPath: '/'
-		},
-		plugins: [
-			new webpack.optimize.CommonsChunkPlugin({
-				name: 'common'
-			}),
-			new webpack.ProvidePlugin({
-				angular: 'angular'
-			})
-		]
-	},
-	pug(),
-	images(),
-	babel(),
-	html(),
-	angular()
-]);
-
-function getPlugin(env) {
-	return {
-		plugins: [
-			new HtmlWebpackPlugin({
-				filename: 'index.html',
-				chunks: ['index', 'common'],
-				template: PATHS.src + '/index.pug',
-				github: env === 'github'
-			})
-		]
-	};
-}
+		pug(),
+		images(),
+		babel(),
+		html(),
+		angular()
+	]);
+};
 
 module.exports = function (env) {
-	if (env === 'production' || env === 'github') {
+	let isGithub = env === 'github';
+	
+	if (env === 'production' || isGithub) {
 		return merge([
-			common,
-			getPlugin(env),
+			common(isGithub),
 			extractCSS(),
 			uglifyJS(),
 		]);
 	}
 	if (env === 'development') {
 		return merge([
-			common,
-			getPlugin(env),
+			common(isGithub),
 			devserver(),
 			sass(),
 			css(),
