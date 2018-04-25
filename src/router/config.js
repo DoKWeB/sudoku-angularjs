@@ -1,7 +1,7 @@
 function config($stateProvider, $locationProvider, $urlRouterProvider) {
 	$stateProvider
 		.state('home', {
-			url: '/',
+			url: ENV === 'github' ? '#!/' :'/',
 			template: '<game></game>'
 		})
 		.state('pageNotFound', {
