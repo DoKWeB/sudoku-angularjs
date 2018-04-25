@@ -17,7 +17,10 @@ function config($stateProvider, $locationProvider, $urlRouterProvider) {
 		});
 	
 	$urlRouterProvider.otherwise('/404');
-	$locationProvider.html5Mode(true);
+	
+	if (ENV) {
+		$locationProvider.html5Mode(true);
+	}
 }
 config.$inject = ['$stateProvider', '$locationProvider', '$urlRouterProvider'];
 

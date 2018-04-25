@@ -18,7 +18,7 @@ const PATHS = {
 	build: path.join(__dirname, 'docs') // build path
 };
 
-const common = function (isGithub) {
+const common = function (isGithub, env) {
 	return merge([
 		{
 			entry: {// точка входа приложения
@@ -40,7 +40,10 @@ const common = function (isGithub) {
 					name: 'common'
 				}),
 				new webpack.ProvidePlugin({
-					angular: 'angular'
+					angular: 'angular',
+				}),
+				new webpack.DefinePlugin({
+					ENV: JSON.stringify(env)
 				})
 			]
 		},
@@ -57,14 +60,14 @@ module.exports = function (env) {
 	
 	if (env === 'production' || isGithub) {
 		return merge([
-			common(isGithub),
+			common(isGithub, env),
 			extractCSS(),
 			uglifyJS(),
 		]);
 	}
 	if (env === 'development') {
 		return merge([
-			common(isGithub),
+			common(isGithub, env),
 			devserver(),
 			sass(),
 			css(),
