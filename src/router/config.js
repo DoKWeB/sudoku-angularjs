@@ -18,7 +18,7 @@ function config($stateProvider, $locationProvider, $urlRouterProvider) {
 	
 	$urlRouterProvider.otherwise('/404');
 	
-	if (ENV) {
+	if (ENV !== 'github') {
 		$locationProvider.html5Mode(true);
 	}
 }
