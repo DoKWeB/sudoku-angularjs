@@ -20,6 +20,8 @@ function config($stateProvider, $locationProvider, $urlRouterProvider) {
 	
 	if (ENV !== 'github') {
 		$locationProvider.html5Mode(true);
+	} else {
+		$locationProvider.hashPrefix('#');
 	}
 }
 config.$inject = ['$stateProvider', '$locationProvider', '$urlRouterProvider'];
